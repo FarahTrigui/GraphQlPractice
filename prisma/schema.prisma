@@ -1,0 +1,46 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model cv {
+  id           Int            @id(map: "PK_4ddf7891daf83c3506efa503bb8") @default(autoincrement())
+  name         String         @db.VarChar
+  firstname    String         @db.VarChar
+  age          Int
+  cin          Int
+  job          String         @db.VarChar
+  path         String         @db.VarChar
+  userId       Int?
+  user         user?          @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_e4b7330e64fd0ecce86720e62f9")
+  skill_cvs_cv skill_cvs_cv[]
+}
+
+model skill {
+  id           Int            @id(map: "PK_a0d33334424e64fb78dc3ce7196") @default(autoincrement())
+  designation  String         @db.VarChar
+  skill_cvs_cv skill_cvs_cv[]
+}
+
+model skill_cvs_cv {
+  skillId Int
+  cvId    Int
+  skill   skill @relation(fields: [skillId], references: [id], onDelete: Cascade, map: "FK_0b05d8baaa2f76a65859ba804ad")
+  cv      cv    @relation(fields: [cvId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_59bbaafd7773d6b9bc4b5358f82")
+
+  @@id([skillId, cvId], map: "PK_558137b2117bfdadb13c04ae40b")
+  @@index([skillId], map: "IDX_0b05d8baaa2f76a65859ba804a")
+  @@index([cvId], map: "IDX_59bbaafd7773d6b9bc4b5358f8")
+}
+
+model user {
+  id       Int    @id(map: "PK_cace4a159ff9f2512dd42373760") @default(autoincrement())
+  username String @db.VarChar
+  email    String @db.VarChar
+  password String @db.VarChar
+  cv       cv[]
+}
