@@ -1,2 +1,2 @@
 # GraphQlPractice
-A practice GraphQL server using GraphQL Yoga with examples of queries, mutations, and subscriptions.
+A practice GraphQL server using GraphQL Yoga with examples of queries, mutations, and subscriptions (also with Prizma)
